@@ -1,4 +1,6 @@
 const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+const selectedDaysArray = [];
+const savedMealsArray = [];
 
 function daySelect () {
     var choicesContainer = document.getElementById("daySelector");
@@ -44,24 +46,58 @@ function daySelectChange (activeBtn) {
     }
 }
 
-function daySelectSubmit () {
+function daySelectSubmit (param) {
     console.log("submit Successful");
+    console.log(param);
 
-    const selectedDaysArray = [];
     const daySubmitElementContainer = document.getElementById("daySelector").children;
     const daySubmitElement = daySubmitElementContainer.children;
 
-    selectedDaysArray.push(daySubmitElement);
-
     console.log(daySubmitElement);
     console.log(daySubmitElementContainer);
-    console.log(daySubmitElementContainer);
     console.log(selectedDaysArray);
-    console.log(daySubmitElementContainer);
 
-    daySubmitElement.forEach(option => {
-        console.log(option.value);
-    });
+    for (let i = 0; i < daySubmitElementContainer.length; i++) {
+        var element = daySubmitElementContainer[i];
+        var elementChildren = element.children
+        
+        console.log(element);
+        console.log(elementChildren);
+        console.log(elementChildren.value);
+
+        for (let i = 0; i < elementChildren.length; i++) {
+            var elementLoop = elementChildren[i];
+            var elementLoopValue = elementLoop.value;
+            var elementLoopId = elementLoop.id;
+            
+            console.log(elementLoop);
+            console.log(elementLoopValue);
+            console.log(elementLoopId)
+
+            if (elementLoopValue === "true") {
+                selectedDaysArray.push(elementLoopId)
+                console.log(elementLoopId)
+            }
+            
+            console.log(selectedDaysArray);
+        }
+    }
+    document.getElementById("daySelectionContainer").style.display = "none";
+    showRandomMealBtn();
 }
+
+function showRandomMealBtn () {
+    var mealSelectionDest = document.getElementById("mealSelectionContainer");
+    var mealSelectionElement = document.createElement("div");
+        mealSelectionElement.className = "randomMealBox";
+        mealSelectionElement.innerHTML = `
+            <div id="mealContainer" class="mealcontainer"></div>
+            <button id="getMealBtn" class="getMealBtn" onclick=getRandomMeal()>randomMealButton</button>
+        `;
+        mealSelectionDest.appendChild(mealSelectionElement);
+
+    console.log("appendedChild")
+}
+
 
 daySelect();
