@@ -24,7 +24,11 @@ function Weekday(id, dayName, value) {
     this.dayName = name;
     this.value = value;
     this.activate = function (day) {
-        this.value = value;
+        if(this.value === "true"){
+            this.value = "false";
+        } if(this.value === "false"){
+            this.value = "true";
+        }
     };
 };
   
@@ -48,17 +52,18 @@ function daySelect () {
         var paramName = param.name;
         var paramValue = param.value;
         var paramId = param.id;
-        var dayBtnContainer = document.createElement("button");
-        // dayBtnContainer.innerHTML = `
-        //     <button name="dayBtn" id="`+paramName+`" value="false" class="daySelectorBtnInactive" onClick=daySelectChange("`+paramName+`")>`+paramName+`</button>
-        // `;
-        dayBtnContainer.name = "dayBtn";
-        dayBtnContainer.id = paramName;
-        dayBtnContainer.value= paramValue; 
-        dayBtnContainer.className= "daySelectorBtn"+paramValue;
-        dayBtnContainer.onclick= function() {daySelectChange(paramName, paramId)};
-        dayBtnContainer.innerHTML= paramName;
-        choicesContainer.appendChild(dayBtnContainer);
+        var dayBtnContainer = document.createElement("button");     
+                dayBtnContainer.name = "dayBtn";
+                dayBtnContainer.id = paramName;
+                dayBtnContainer.value= paramValue; 
+                dayBtnContainer.className= "daySelectorBtn"+paramValue;
+                dayBtnContainer.onclick= function() {
+                    daySelectChange(paramName, paramId);
+                    paramName.activate();
+                    console.log
+                };
+            dayBtnContainer.innerHTML= paramName;
+            choicesContainer.appendChild(dayBtnContainer);
 
         console.log(dayBtnContainer);
 
@@ -68,14 +73,19 @@ function daySelect () {
     });
 
     var daySelectionContainer = document.getElementById("daySelectionContainer");
-    var daySubmitBtn = document.createElement("div");
-    daySubmitBtn.innerHTML = `
-            <button name="daySubmit" id="daySubmit" class="daySelectorSubmitBtn" onClick=daySelectSubmit()>Submit</button>
-    `;
-    daySubmitBtn.className= "daySelectorSubmitBtnContainer";
-    daySelectionContainer.appendChild(daySubmitBtn);
+        var daySubmitBtn = document.createElement("div");
+            daySubmitBtn.innerHTML = `
+                    <button 
+                        name="daySubmit" 
+                        id="daySubmit" 
+                        class="daySelectorSubmitBtn" 
+                        onClick=daySelectSubmit()
+                    >Submit</button>
+            `;
+        daySubmitBtn.className= "daySelectorSubmitBtnContainer";
+        daySelectionContainer.appendChild(daySubmitBtn);
 
-    console.log(daySelectionState);
+        console.log(daySelectionState);
 }
 
 function daySelectChange (activeName, activeId) {
@@ -122,9 +132,24 @@ function daySelectSubmit () {
     console.log(selectedDaysArray);
     console.log(daySubmitElementContainer);
 
-    daySubmitElement.forEach(option => {
-        console.log(option.value);
-    });
+    // daySubmitElement.forEach(option => {
+    //     console.log(option.value);
+    // });
 }
+
+    const btnGrab = document.getElementsByName("dayBtn");
+        //btnGrab.addEventListener("click", function () {console.log("CLICK from eventListener")});
+    console.log(btnGrab);
+    btnGrab[0].addEventListener('click', function onClick() {
+        console.log('button clicked');
+      });
+      
+      // ✅ addEventListener to all boxes
+      for (const button of btnGrab) {
+        button.addEventListener('click', function onClick() {
+          console.log('button clicked');
+        });
+      }
+      
 
 daySelect();
