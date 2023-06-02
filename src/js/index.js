@@ -91,13 +91,38 @@ function showRandomMealBtn () {
     var mealSelectionElement = document.createElement("div");
         mealSelectionElement.className = "randomMealBox";
         mealSelectionElement.innerHTML = `
-            <div id="mealContainer" class="mealcontainer"></div>
             <button id="getMealBtn" class="getMealBtn" onclick=getRandomMeal()>randomMealButton</button>
+            <div id="mealContainer" class="mealcontainer"></div>
+          
         `;
         mealSelectionDest.appendChild(mealSelectionElement);
-
-    console.log("appendedChild")
+        console.log("appendedChild")
 }
 
+function getRandomMeal() {
+    console.log("clicked");
+    fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+        .then((res) => res.json())
+        .then((randomData) => {
+            const meal = randomData.meals[0];
+            console.log(meal);
+            showRandomMeal(meal);
+        });
+}
+
+function showRandomMeal (meal) {
+    var randomMealDest = document.getElementById("mealContainer");
+    var randomMealCard = document.createElement("div");
+    var mealName = meal.strMeal;
+    var mealImg = meal.strMealThumb;
+        randomMealCard.innerHTML = `
+            <div class="randomMealName" id="`+mealName+`">`+mealName+`</div>
+            <div class="randomMealImage" id="`+mealName+`">
+                <img src="`+mealImg+`" alt="`+mealName+`"></img>
+            </div>
+        `;
+        randomMealCard.className = "randomMealCard";
+        randomMealDest.appendChild(randomMealCard);
+}
 
 daySelect();
