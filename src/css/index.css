@@ -119,3 +119,8 @@
     font-family: Helvetica;
     transition: 1s;
 }
+
+.randomMealBox {
+    display: flex;
+    flex-direction: column;
+}
