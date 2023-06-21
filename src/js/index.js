@@ -1,5 +1,6 @@
 const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 const selectedDaysArray = [];
+const mealsArray=[];
 const savedMealsArray = [];
 
 function daySelect () {
@@ -91,12 +92,17 @@ function showRandomMealBtn () {
     var mealSelectionElement = document.createElement("div");
         mealSelectionElement.className = "randomMealBox";
         mealSelectionElement.innerHTML = `
-            <button id="getMealBtn" class="getMealBtn" onclick=getRandomMeal()>randomMealButton</button>
-            <div id="mealContainer" class="mealcontainer"></div>
-          
+            <button id="getMealBtn" class="getMealBtn" onclick=findAMeal()>Find a Meal</button>
+            <div id="activeMealContainer" class="activeMealContainer"></div>
         `;
         mealSelectionDest.appendChild(mealSelectionElement);
         console.log("appendedChild")
+}
+
+function findAMeal () {
+    var findMealBtn = document.getElementById("getMealBtn");
+    findMealBtn.style.display = "none";
+    getRandomMeal();
 }
 
 function getRandomMeal() {
@@ -106,23 +112,73 @@ function getRandomMeal() {
         .then((randomData) => {
             const meal = randomData.meals[0];
             console.log(meal);
+            mealsArray.push(meal);
+            console.log(mealsArray);
             showRandomMeal(meal);
         });
 }
 
 function showRandomMeal (meal) {
-    var randomMealDest = document.getElementById("mealContainer");
-    var randomMealCard = document.createElement("div");
+    var randomMealDest = document.getElementById("activeMealContainer");
     var mealName = meal.strMeal;
     var mealImg = meal.strMealThumb;
-        randomMealCard.innerHTML = `
+    var mealId = meal.idMeal;
+        randomMealDest.innerHTML = `
             <div class="randomMealName" id="`+mealName+`">`+mealName+`</div>
             <div class="randomMealImage" id="`+mealName+`">
                 <img src="`+mealImg+`" alt="`+mealName+`"></img>
             </div>
+            <button class="saveMealBtn" onclick="getRandomMeal()">Different Meal</button>
+            <button class="deleteMealBtn" id="savedMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
         `;
-        randomMealCard.className = "randomMealCard";
-        randomMealDest.appendChild(randomMealCard);
 }
+
+function saveMeal (mealParam) {
+    var savedMealsBg = document.getElementById("savedMealsContainer");
+        savedMealsBg.style.backgroundColor = "lightblue";
+    var hideSaveMealBtn = document.getElementById("savedMealBtn");
+        hideSaveMealBtn.style.display = "none";
+    mealsArray.forEach(meal => {
+        var mealData = JSON.stringify(mealParam);
+        var mealId = meal.idMeal;
+        console.log(meal);
+        console.log(mealId);
+        console.log(mealData);
+        if(mealId === mealData) {
+            console.log("matched");
+            savedMealsArray.push(meal);
+            addSavedMealtoDOM(mealId);
+        } else {
+            console.log("else");
+        }
+    })
+}
+
+function addSavedMealtoDOM (savedMealParam) {
+    savedMealsArray.forEach(meal => {
+        var savedMealName = meal.strMeal;
+        var savedMealImg = meal.strMealThumb;
+        var savedMealId = meal.idMeal;
+        console.log(savedMealId);
+        console.log(savedMealParam);
+        if(savedMealId === savedMealParam) {
+            var savedMealDest = document.getElementById("savedMealsContainer");
+            var savedMealCard = document.createElement("div");
+                savedMealCard.innerHTML = `
+                    <div class="savedMealName" id="`+savedMealName+`">`+savedMealName+`</div>
+                    <div class="savedMealImg" id="`+savedMealName+`">
+                        <img src="`+savedMealImg+`" alt="`+savedMealName+`"></img>
+                    </div>
+                `;
+                savedMealCard.className = "savedMealCard";
+                savedMealCard.id = savedMealId;
+                savedMealDest.appendChild(savedMealCard);
+        }
+        var duplicateCheck = document.getElementById(savedMealId);
+        console.log(duplicateCheck);
+    })
+}
+    
+
 
 daySelect();
