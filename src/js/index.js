@@ -131,7 +131,7 @@ function showRandomMeal (meal) {
             <div class="randomMealBtns">
                 <button class="randomMealBtn" onclick="getRandomMeal()">Find Another Meal</button>
                 <button class="saveMealBtn" id="savedMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
-                <button class="finishBtn" id="finishBtn" onclick="saveMeal(`+mealId+`)">Finish</button>
+                <button class="finishBtn" id="finishBtn" onclick="showSchedule()">Finish</button>
             </div>
         `;
 }
