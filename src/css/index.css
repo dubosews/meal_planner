@@ -137,19 +137,19 @@
 
 .randomMealBox {
     display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-bottom:20px;
-    margin-left: auto;
-    margin-right:auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 25px;
-    padding-right: 25px;
+    flex-direction: row;
     align-self: center;
     align-content: center;
     justify-self: center;
     justify-content: center;
+    margin-top: 20px;
+    margin-bottom:20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: lightblue;
     border-radius: 12px;
     font-family: helvetica;
@@ -158,9 +158,23 @@
     color: white;
 }
 
+.searchFilterContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
 .randomMealName {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -172,16 +186,13 @@
     padding-right: 10px;
     border-radius: 12px;
     background-color: white;
-    color: lightblue;
+    color: blue;
     text-align: center;
-
 }
-
 
 .randomMealBtns {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
 }
 
 .randomMealBtn {
@@ -204,10 +215,10 @@
 
 .randomMealBtn:hover {
     display: flex;
+    flex-direction: row;
     width: auto;
     height: auto;
     padding: 10px;
-    flex-direction: row;
     color: white;
     background-color: blue;
     border: 1px solid blue;
@@ -230,6 +241,7 @@
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    background-color: white;
     border: 1px solid blue;
     border-radius: 12pt;
     font-size: 16pt;
@@ -246,6 +258,41 @@
     background-color: blue;
     border: 1px solid blue;
     border-radius: 12pt;
+    font-size: 18pt;
+    font-weight: bold;
+    font-family: Helvetica;
+    transition: 0.5s;
+}
+
+.saveMealBtnActive {
+    display: none;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(0, 57, 5);
+    border-radius: 12pt;
+    background-color: rgb(0, 190, 16);
+    color: rgb(0, 83, 7);
+    font-size: 16pt;
+    font-family: Helvetica;
+}
+
+.saveMealBtnActive:hover {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    flex-direction: row;
+    border: 1px solid rgb(255, 69, 69);
+    border-radius: 12pt;
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
     font-size: 18pt;
     font-weight: bold;
     font-family: Helvetica;
