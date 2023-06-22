@@ -128,8 +128,11 @@ function showRandomMeal (meal) {
             <div class="randomMealImage" id="`+mealName+`">
                 <img src="`+mealImg+`" alt="`+mealName+`"></img>
             </div>
-            <button class="saveMealBtn" onclick="getRandomMeal()">Different Meal</button>
-            <button class="deleteMealBtn" id="savedMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
+            <div class="randomMealBtns">
+                <button class="randomMealBtn" onclick="getRandomMeal()">Find Another Meal</button>
+                <button class="saveMealBtn" id="savedMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
+                <button class="finishBtn" id="finishBtn" onclick="saveMeal(`+mealId+`)">Finish</button>
+            </div>
         `;
 }
 
