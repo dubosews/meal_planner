@@ -3,6 +3,7 @@ const selectedDaysArray = [];
 const mealsArray=[];
 const savedMealsArray = [];
 
+// Stage I: Select the Days User Wants to Plan Meals For.
 function daySelect () {
     var choicesContainer = document.getElementById("daySelector");
 
@@ -19,7 +20,7 @@ function daySelect () {
     const daySelectionContainer = document.getElementById("daySelectionContainer");
     const daySubmitBtn = document.createElement("div");
     daySubmitBtn.innerHTML = `
-            <button name="daySubmit" id="daySubmit" class="daySelectorSubmitBtn" onClick=daySelectSubmit()>Submit</button>
+            <button name="daySubmit" id="daySubmit" class="daySelectorSubmitBtn" onClick=daySelectSubmit()>Select Days</button>
     `;
     daySubmitBtn.className= "daySelectorSubmitBtnContainer";
     daySelectionContainer.appendChild(daySubmitBtn);
@@ -87,21 +88,23 @@ function daySelectSubmit (param) {
     showRandomMealBtn();
 }
 
+// Stage II: Adding Meals to the Saved Meal Array
 function showRandomMealBtn () {
     var mealSelectionDest = document.getElementById("mealSelectionContainer");
     var mealSelectionElement = document.createElement("div");
         mealSelectionElement.className = "randomMealBox";
         mealSelectionElement.innerHTML = `
-            <button id="getMealBtn" class="getMealBtn" onclick=findAMeal()>Find a Meal</button>
+            <div id="searchFilterContainer" class="searchFilterContainer">
+                <button class="randomMealBtn" onclick="getRandomMeal()">Find Another Meal</button>
+            </div>
             <div id="activeMealContainer" class="activeMealContainer"></div>
         `;
         mealSelectionDest.appendChild(mealSelectionElement);
-        console.log("appendedChild")
+        findAMeal();
 }
 
 function findAMeal () {
     var findMealBtn = document.getElementById("getMealBtn");
-    findMealBtn.style.display = "none";
     getRandomMeal();
 }
 
@@ -124,14 +127,17 @@ function showRandomMeal (meal) {
     var mealImg = meal.strMealThumb;
     var mealId = meal.idMeal;
         randomMealDest.innerHTML = `
-            <div class="randomMealName" id="`+mealName+`">`+mealName+`</div>
+            <div class="randomMealName" id="`+mealName+`">
+                <div id="randomMealNameTxt" class="randomMealNameTxt">
+                    `+mealName+`
+                </div>
+                <div class="randomMealBtns">
+                    <button class="saveMealBtn" id="saveMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
+                    <button class="saveMealBtnActive" id="saveMealBtnActive" onclick="unsaveMeal(`+mealId+`)">Saved</button>
+                </div>
+            </div>
             <div class="randomMealImage" id="`+mealName+`">
                 <img src="`+mealImg+`" alt="`+mealName+`"></img>
-            </div>
-            <div class="randomMealBtns">
-                <button class="randomMealBtn" onclick="getRandomMeal()">Find Another Meal</button>
-                <button class="saveMealBtn" id="savedMealBtn" onclick="saveMeal(`+mealId+`)">Save Meal</button>
-                <button class="finishBtn" id="finishBtn" onclick="showSchedule()">Finish</button>
             </div>
         `;
 }
@@ -139,25 +145,58 @@ function showRandomMeal (meal) {
 function saveMeal (mealParam) {
     var savedMealsBg = document.getElementById("savedMealsContainer");
         savedMealsBg.style.backgroundColor = "lightblue";
-    var hideSaveMealBtn = document.getElementById("savedMealBtn");
+    var hideSaveMealBtn = document.getElementById("saveMealBtn");
         hideSaveMealBtn.style.display = "none";
+    var showSaveMealBtnActive = document.getElementById("saveMealBtnActive");
+        showSaveMealBtnActive.style.display = "flex";
     mealsArray.forEach(meal => {
         var mealData = JSON.stringify(mealParam);
-        var mealId = meal.idMeal;
+        var saveMealId = meal.idMeal;
         console.log(meal);
-        console.log(mealId);
+        console.log(saveMealId);
         console.log(mealData);
-        if(mealId === mealData) {
-            console.log("matched");
-            savedMealsArray.push(meal);
-            addSavedMealtoDOM(mealId);
+        if(saveMealId === mealData) {
+            console.log("Save Meal ID Matched");
+            duplicateObjCheck(meal);
         } else {
-            console.log("else");
+            console.log("Saved Meal IDs Mismatched");
         }
     })
 }
 
+function duplicateObjCheck (duplicateParam) {
+    var duplicateTargetId = duplicateParam.idMeal;
+    var savedArrayLength = savedMealsArray.length;
+        console.log(duplicateParam);
+        console.log(duplicateTargetId);
+    if(savedArrayLength === 0) {
+        savedMealsArray.push(duplicateParam);
+        addSavedMealtoDOM(duplicateTargetId);
+            console.log("meal added");
+    } else {
+        const findDuplicateObject = savedMealsArray.find(element => element.idMeal === duplicateTargetId);
+        console.log(findDuplicateObject);
+        if()
+    }
+    console.log(savedMealsArray);
+    
+
+        // savedMealsArray.forEach(duplicateLoop => {
+        //     var duplicateLoopId = duplicateLoop.idMeal;
+        //         console.log(duplicateLoop);    
+        //         console.log(duplicateLoopId);
+        //     if(duplicateTargetId === duplicateLoopId) {
+        //         addSavedMealtoDOM(duplicateLoopId);
+        //     } else {
+        //         savedMealsArray.push(duplicateParam);
+        //             console.log(savedMealsArray);
+        //         addSavedMealtoDOM(duplicateTargetId);
+        //     }
+        // })
+}
+
 function addSavedMealtoDOM (savedMealParam) {
+    console.log("test");
     savedMealsArray.forEach(meal => {
         var savedMealName = meal.strMeal;
         var savedMealImg = meal.strMealThumb;
@@ -179,7 +218,32 @@ function addSavedMealtoDOM (savedMealParam) {
         }
         var duplicateCheck = document.getElementById(savedMealId);
         console.log(duplicateCheck);
+        if(!duplicateCheck === "null") {
+            console.log("duplicate true");
+        }
     })
+}
+
+function unsaveMeal (unsaveMealParam) {
+    var unsaveMealId = JSON.stringify(unsaveMealParam);
+    var unsaveMealDiv = document.getElementById(unsaveMealId);
+    var showSaveMealBtn = document.getElementById("saveMealBtn");
+        showSaveMealBtn.style.display = "flex";
+    var hideSaveMealBtnActive = document.getElementById("saveMealBtnActive");
+        hideSaveMealBtnActive.style.display = "none";
+    savedMealsArray.forEach(meal => {
+        var unsaveMealLoopId = meal.idMeal;
+        if(unsaveMealLoopId === unsaveMealId) {
+            delete meal;
+                unsaveMealDiv.remove();
+                console.log("Successfully Deleted");
+        }
+    })
+    console.log(savedMealsArray);
+}
+
+function showSchedule () {
+    console.log("Meal Selection Finished");
 }
     
 
