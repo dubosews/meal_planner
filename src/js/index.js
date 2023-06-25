@@ -167,32 +167,17 @@ function saveMeal (mealParam) {
 function duplicateObjCheck (duplicateParam) {
     var duplicateTargetId = duplicateParam.idMeal;
     var savedArrayLength = savedMealsArray.length;
+    var findDuplicateObject = savedMealsArray.find(element => element.idMeal === duplicateTargetId);
         console.log(duplicateParam);
         console.log(duplicateTargetId);
-    if(savedArrayLength === 0) {
+    if(findDuplicateObject === true) {
+        console.log(duplicateParam); 
+    } else {
         savedMealsArray.push(duplicateParam);
         addSavedMealtoDOM(duplicateTargetId);
             console.log("meal added");
-    } else {
-        const findDuplicateObject = savedMealsArray.find(element => element.idMeal === duplicateTargetId);
-        console.log(findDuplicateObject);
-        if()
     }
     console.log(savedMealsArray);
-    
-
-        // savedMealsArray.forEach(duplicateLoop => {
-        //     var duplicateLoopId = duplicateLoop.idMeal;
-        //         console.log(duplicateLoop);    
-        //         console.log(duplicateLoopId);
-        //     if(duplicateTargetId === duplicateLoopId) {
-        //         addSavedMealtoDOM(duplicateLoopId);
-        //     } else {
-        //         savedMealsArray.push(duplicateParam);
-        //             console.log(savedMealsArray);
-        //         addSavedMealtoDOM(duplicateTargetId);
-        //     }
-        // })
 }
 
 function addSavedMealtoDOM (savedMealParam) {
