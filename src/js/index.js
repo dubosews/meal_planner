@@ -170,6 +170,7 @@ function duplicateObjCheck (duplicateParam) {
     var findDuplicateObject = savedMealsArray.find(element => element.idMeal === duplicateTargetId);
         console.log(duplicateParam);
         console.log(duplicateTargetId);
+        console.log(findDuplicateObject);
     if(findDuplicateObject === true) {
         console.log(duplicateParam); 
     } else {
