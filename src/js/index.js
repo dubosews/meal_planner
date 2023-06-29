@@ -117,6 +117,7 @@ function getRandomMeal() {
             console.log(meal);
             mealsArray.push(meal);
             console.log(mealsArray);
+            console.log(savedMealsArray);
             showRandomMeal(meal);
         });
 }
@@ -166,23 +167,26 @@ function saveMeal (mealParam) {
 
 function duplicateObjCheck (duplicateParam) {
     var duplicateTargetId = duplicateParam.idMeal;
-    var savedArrayLength = savedMealsArray.length;
     var findDuplicateObject = savedMealsArray.find(element => element.idMeal === duplicateTargetId);
         console.log(duplicateParam);
         console.log(duplicateTargetId);
         console.log(findDuplicateObject);
-    if(findDuplicateObject === true) {
-        console.log(duplicateParam); 
-    } else {
+    if(!findDuplicateObject === true) {
+        var savedMealsLength = savedMealsArray.length;
+        var test = duplicateParam.position = savedMealsLength;
+            console.log(test);
+        test;
         savedMealsArray.push(duplicateParam);
         addSavedMealtoDOM(duplicateTargetId);
             console.log("meal added");
+    } else {
+        console.log("duplicate detected");
+        addSavedMealtoDOM(duplicateTargetId);
     }
     console.log(savedMealsArray);
 }
 
 function addSavedMealtoDOM (savedMealParam) {
-    console.log("test");
     savedMealsArray.forEach(meal => {
         var savedMealName = meal.strMeal;
         var savedMealImg = meal.strMealThumb;
@@ -196,6 +200,9 @@ function addSavedMealtoDOM (savedMealParam) {
                     <div class="savedMealName" id="`+savedMealName+`">`+savedMealName+`</div>
                     <div class="savedMealImg" id="`+savedMealName+`">
                         <img src="`+savedMealImg+`" alt="`+savedMealName+`"></img>
+                    </div>
+                    <div class="savedMealBtns">
+                        <button class="savedMealDeleteBtn" onclick="unsaveMeal(`+savedMealId+`)">Remove</button>
                     </div>
                 `;
                 savedMealCard.className = "savedMealCard";
@@ -211,21 +218,42 @@ function addSavedMealtoDOM (savedMealParam) {
 }
 
 function unsaveMeal (unsaveMealParam) {
+        console.log(unsaveMealParam);
     var unsaveMealId = JSON.stringify(unsaveMealParam);
     var unsaveMealDiv = document.getElementById(unsaveMealId);
     var showSaveMealBtn = document.getElementById("saveMealBtn");
         showSaveMealBtn.style.display = "flex";
     var hideSaveMealBtnActive = document.getElementById("saveMealBtnActive");
         hideSaveMealBtnActive.style.display = "none";
+    var mealPosition = 0;
+    var deletedMealCount = 0;
+    var newPosition = 0;
     savedMealsArray.forEach(meal => {
+            console.log(mealPosition);
         var unsaveMealLoopId = meal.idMeal;
         if(unsaveMealLoopId === unsaveMealId) {
-            delete meal;
+            var targetMealPosition = meal.position;
+                console.log(targetMealPosition);
+                console.log(savedMealsArray)
+            savedMealsArray.splice(targetMealPosition, 1);
                 unsaveMealDiv.remove();
+                deletedMealCount ++;
                 console.log("Successfully Deleted");
+                console.log(meal);
+                console.log(mealPosition);
+            savedMealsArray.forEach(meal => {
+                console.log(newPosition);
+                meal.position = newPosition;
+                console.log(meal);
+                newPosition++;
+                console.log(newPosition);
+            })
         }
+        mealPosition++;
     })
-    console.log(savedMealsArray);
+    mealPosition = 0;
+        console.log(mealPosition);
+        console.log(savedMealsArray);
 }
 
 function showSchedule () {
