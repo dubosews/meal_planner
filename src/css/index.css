@@ -299,6 +299,23 @@
     transition: 0.5s;
 }
 
+/*  Saved Meals Active Container Properties  */
+
+.activeMealContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .savedMealDeleteBtn {
     display: flex;
     flex-direction: row;
@@ -334,7 +351,7 @@
     transition: 0.5s;
 }
 
-.finishBtn {
+.buildMenuBtn {
     display: flex;
     flex-direction: row;
     justify-self: center;
@@ -346,22 +363,23 @@
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px solid blue;
+    border: 1px solid rgb(0, 57, 5);
     border-radius: 12pt;
+    background-color: rgb(125, 255, 173);
+    color: rgb(0, 83, 7);
     font-size: 16pt;
     font-family: Helvetica;
 }
 
-.finishBtn:hover {
-    display: flex;
+.buildMenuBtn:hover {
     width: auto;
     height: auto;
     padding: 10px;
     flex-direction: row;
-    color: white;
-    background-color: blue;
-    border: 1px solid blue;
+    border: 1px solid rgb(255, 69, 69);
     border-radius: 12pt;
+    background-color: rgb(13, 235, 94);
+    color: rgb(199, 199, 199);
     font-size: 18pt;
     font-weight: bold;
     font-family: Helvetica;
@@ -370,7 +388,7 @@
 
 .savedMealsContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     margin-top: 20px;
     margin-bottom:20px;
@@ -389,6 +407,18 @@
     border-radius: 12px;
     font-family: helvetica;
     font-size: 18pt;
+}
+
+.savedMealsDest {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+    justify-items: center;
 }
 
 .savedMealCard {
@@ -437,4 +467,81 @@
 .savedMealImg img {
     width: 125px;
     height: auto;
+}
+
+.showScheduleBtn {
+    display: none;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    border: 1px solid rgb(0, 57, 5);
+    border-radius: 12pt;
+    background-color: rgb(125, 255, 173);
+    color: rgb(0, 83, 7);
+    font-size: 16pt;
+    font-family: Helvetica;
+}
+
+.showScheduleBtn:hover {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    flex-direction: row;
+    border: 1px solid rgb(255, 69, 69);
+    border-radius: 12pt;
+    background-color: rgb(13, 235, 94);
+    color: rgb(199, 199, 199);
+    font-size: 18pt;
+    font-weight: bold;
+    font-family: Helvetica;
+    transition: 0.5s;
+}
+
+.showMealFinderBtn {
+    display: none;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    border: 1px solid rgb(0, 57, 5);
+    border-radius: 12pt;
+    background-color: rgb(125, 255, 173);
+    color: rgb(0, 83, 7);
+    font-size: 16pt;
+    font-family: Helvetica;
+}
+
+.showMealFinderBtn:hover {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    flex-direction: row;
+    border: 1px solid rgb(255, 69, 69);
+    border-radius: 12pt;
+    background-color: rgb(13, 235, 94);
+    color: rgb(199, 199, 199);
+    font-size: 18pt;
+    font-weight: bold;
+    font-family: Helvetica;
+    transition: 0.5s;
+}
+
+.buildingContainer {
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
 }
