@@ -85,6 +85,8 @@ function daySelectSubmit (param) {
         }
     }
     document.getElementById("daySelectionContainer").style.display = "none";
+    var hideDaySubmitBtn = document.getElementById("daySubmit");
+        hideDaySubmitBtn.display="none";
     showMealFinder();
 }
 
@@ -95,16 +97,19 @@ function showMealFinder () {
     var showMealFinder = document.getElementById("mealSelectionContainer");
         showMealFinder.style.display = "flex";
     var mealSelectionDest = document.getElementById("mealSelectionContainer");
-    var mealSelectionElement = document.createElement("div");
-        mealSelectionElement.className = "randomMealBox";
-        mealSelectionElement.innerHTML = `
+    var hideMealFinderBtn = document.getElementById("mealFinderBtn");
+        hideMealFinderBtn.style.display = "none";
+    var hideChangeDaysBtn = document.getElementById("changeDaysBtn");
+        hideChangeDaysBtn.style.display = "none";
+    var showScheduleBtn = document.getElementById("scheduleBtn");
+        showScheduleBtn.style.display = "flex";
+        mealSelectionDest.innerHTML = `
             <div id="searchFilterContainer" class="searchFilterContainer">
                 <button class="randomMealBtn" onclick="fetchRandomMeal()">Find Another Meal</button>
             </div>
             <div id="activeMealContainer" class="activeMealContainer">
             </div>
         `;
-        mealSelectionDest.appendChild(mealSelectionElement);
         fetchRandomMeal();
 }
 
@@ -187,7 +192,7 @@ function duplicateObjCheck (duplicateParam) {
 }
 
 function addSavedMealtoDOM (savedMealParam) {
-    var showScheduleBtnLocation = document.getElementById("showScheduleBtn");
+    var showScheduleBtnLocation = document.getElementById("scheduleBtn");
         showScheduleBtnLocation.style.display = "flex";
     savedMealsArray.forEach(meal => {
         var savedMealName = meal.strMeal;
@@ -199,25 +204,49 @@ function addSavedMealtoDOM (savedMealParam) {
             var savedMealDest = document.getElementById("savedMealsDest");
             var savedMealCard = document.createElement("div");
                 savedMealCard.innerHTML = `
+                    <div id="`+savedMealId+`" class="savedMealCard" draggable="true" ondragstart="drag(event)">
                     <div class="savedMealName" id="`+savedMealName+`">`+savedMealName+`</div>
                     <div class="savedMealImg" id="`+savedMealName+`">
-                        <img src="`+savedMealImg+`" alt="`+savedMealName+`"></img>
+                        <img src="`+savedMealImg+`" draggable="false" alt="`+savedMealName+`"></img>
                     </div>
                     <div class="savedMealBtns">
                         <button class="savedMealDeleteBtn" onclick="unsaveMeal(`+savedMealId+`)">Remove</button>
                     </div>
+                    </div>
                 `;
                 savedMealCard.className = "savedMealCard";
+                savedMealCard.name = "savedMealCard";
                 savedMealCard.id = savedMealId;
+                savedMealCard.draggable = true;
                 savedMealDest.appendChild(savedMealCard);
-        }
-        var duplicateCheck = document.getElementById(savedMealId);
-        console.log(duplicateCheck);
-        if(!duplicateCheck === "null") {
-            console.log("duplicate true");
+            var savedMealDragTarget = document.getElementById(savedMealId);
+                savedMealDragTarget.onchange = "handleDragstart(event)";
+
         }
     })
 }
+
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    console.log(ev);
+}
+  
+  function drop(ev) {
+    ev.preventDefault();
+    console.log(ev);
+    console.log(ev.target);
+    var dataTarget = ev.target;
+    var dataId = dataTarget.id;
+    console.log(dataTarget)
+    console.log(dataId);
+    var data = ev.dataTransfer.getData("text");
+    console.log(data);
+    ev.target.appendChild(document.getElementById(data));
+  }
 
 function unsaveMeal (unsaveMealParam) {
         console.log(unsaveMealParam);
@@ -258,33 +287,80 @@ function unsaveMeal (unsaveMealParam) {
         console.log(savedMealsArray);
 }
 
+// Step III: Build Meal Schedule From Saved Meals Container
 function showSchedule () {
     var hideMealFinder = document.getElementById("mealSelectionContainer");
         hideMealFinder.style.display = "none";
     var showSchedule = document.getElementById("buildingContainer");
         showSchedule.style.display = "flex";
+    var showMealFinderBtn = document.getElementById("mealFinderBtn");
+        showMealFinderBtn.style.display = "flex";
+    var hideScheduleBtn = document.getElementById("scheduleBtn");
+        hideScheduleBtn.style.display = "none";
+    var showChangeDaysBtn = document.getElementById("changeDaysBtn");
+        showChangeDaysBtn.style.display = "flex";
     buildEmptySchedule();
 }
 
 function buildEmptySchedule () {
     selectedDaysArray.forEach(day => {
-        var dayValue = day.value;
+        var dayValue = JSON.stringify(day);
             console.log(day);
             console.log(dayValue);
-        var scheduleDayTarget = document.getElementById("buildingContainer");
-        var builderDayContainer = document.createElement("div");
-            builderDayContainer.id = dayValue;
-            builderDayContainer.className = "builderDayContainer";
-            builderDayContainer.innerHTML = `
-                <div id="builderDayTitle" class="builderDayTitle">`+dayValue+`</div>
-                <div id="`+dayValue+`Breakfast" id="builderMealContainer">Breakfast</div>
-                <div id="`+dayValue+`Lunch" id="builderMealContainer">Lunch</div>
-                <div id="`+dayValue+`Dinner" id="builderMealContainer">Dinner</div>
-            `;
-        scheduleDayTarget.appendChild(builderDayContainer);
+        var dayCheckElement = document.getElementById(dayValue);
+            console.log(dayCheckElement);
+            if(dayCheckElement === null){
+                var scheduleDayTarget = document.getElementById("buildingContainer");
+                var builderDayContainer = document.createElement("div");
+                    builderDayContainer.innerHTML = `
+                        <div 
+                            id="builderDayTitle" 
+                            class="builderDayTitle"
+                        >
+                            `+dayValue+`
+                        </div>
+                        <div 
+                            id="`+day+`Breakfast"  
+                            class="builderMealContainer" 
+                            ondrop="drop(event)" 
+                            ondragover="allowDrop(event)"
+                        >
+                            Breakfast
+                        </div>
+                        <div 
+                            id="`+day+`Lunch" 
+                            class="builderMealContainer" 
+                            ondrop="drop(event)" 
+                            ondragover="allowDrop(event)"
+                        >
+                            Lunch
+                        </div>
+                        <div 
+                            id="`+day+`Dinner"
+                            class="builderMealContainer" 
+                            ondrop="drop(event)" 
+                            ondragover="allowDrop(event)"
+                        >
+                            Dinner
+                        </div>
+                    `;
+                    builderDayContainer.id = dayValue;
+                    builderDayContainer.className = "builderDayContainer";
+                    builderDayContainer.ondrop = "drop(event)";
+                    builderDayContainer.ondragover = "allowDrop(event)";
+                    scheduleDayTarget.appendChild(builderDayContainer);
+            }
+        
     })
 }
-    
 
+function showDayChangeMenu () {
+    var daySelectorMenu = document.getElementById("daySelectionContainer");
+        daySelectorMenu.style.display = "flex";
+    var showChangeDaysBtn = document.getElementById("changeDaysBtn");
+        showChangeDaysBtn.style.display = "flex";
+    var showChangeDaysBtn = document.getElementById("changeDaysBtn");
+        showChangeDaysBtn.style.display = "flex";
+}
 
 daySelect();
