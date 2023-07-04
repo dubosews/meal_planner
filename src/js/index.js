@@ -85,30 +85,30 @@ function daySelectSubmit (param) {
         }
     }
     document.getElementById("daySelectionContainer").style.display = "none";
-    showRandomMealBtn();
+    showMealFinder();
 }
 
 // Stage II: Adding Meals to the Saved Meal Array
-function showRandomMealBtn () {
+function showMealFinder () {
+    var hideSchedule = document.getElementById("buildingContainer");
+        hideSchedule.style.display = "none";
+    var showMealFinder = document.getElementById("mealSelectionContainer");
+        showMealFinder.style.display = "flex";
     var mealSelectionDest = document.getElementById("mealSelectionContainer");
     var mealSelectionElement = document.createElement("div");
         mealSelectionElement.className = "randomMealBox";
         mealSelectionElement.innerHTML = `
             <div id="searchFilterContainer" class="searchFilterContainer">
-                <button class="randomMealBtn" onclick="getRandomMeal()">Find Another Meal</button>
+                <button class="randomMealBtn" onclick="fetchRandomMeal()">Find Another Meal</button>
             </div>
-            <div id="activeMealContainer" class="activeMealContainer"></div>
+            <div id="activeMealContainer" class="activeMealContainer">
+            </div>
         `;
         mealSelectionDest.appendChild(mealSelectionElement);
-        findAMeal();
+        fetchRandomMeal();
 }
 
-function findAMeal () {
-    var findMealBtn = document.getElementById("getMealBtn");
-    getRandomMeal();
-}
-
-function getRandomMeal() {
+function fetchRandomMeal() {
     console.log("clicked");
     fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
         .then((res) => res.json())
@@ -118,11 +118,11 @@ function getRandomMeal() {
             mealsArray.push(meal);
             console.log(mealsArray);
             console.log(savedMealsArray);
-            showRandomMeal(meal);
+            displayRandomMeal(meal);
         });
 }
 
-function showRandomMeal (meal) {
+function displayRandomMeal (meal) {
     var randomMealDest = document.getElementById("activeMealContainer");
     var mealName = meal.strMeal;
     var mealImg = meal.strMealThumb;
@@ -187,6 +187,8 @@ function duplicateObjCheck (duplicateParam) {
 }
 
 function addSavedMealtoDOM (savedMealParam) {
+    var showScheduleBtnLocation = document.getElementById("showScheduleBtn");
+        showScheduleBtnLocation.style.display = "flex";
     savedMealsArray.forEach(meal => {
         var savedMealName = meal.strMeal;
         var savedMealImg = meal.strMealThumb;
@@ -194,7 +196,7 @@ function addSavedMealtoDOM (savedMealParam) {
         console.log(savedMealId);
         console.log(savedMealParam);
         if(savedMealId === savedMealParam) {
-            var savedMealDest = document.getElementById("savedMealsContainer");
+            var savedMealDest = document.getElementById("savedMealsDest");
             var savedMealCard = document.createElement("div");
                 savedMealCard.innerHTML = `
                     <div class="savedMealName" id="`+savedMealName+`">`+savedMealName+`</div>
@@ -257,7 +259,30 @@ function unsaveMeal (unsaveMealParam) {
 }
 
 function showSchedule () {
-    console.log("Meal Selection Finished");
+    var hideMealFinder = document.getElementById("mealSelectionContainer");
+        hideMealFinder.style.display = "none";
+    var showSchedule = document.getElementById("buildingContainer");
+        showSchedule.style.display = "flex";
+    buildEmptySchedule();
+}
+
+function buildEmptySchedule () {
+    selectedDaysArray.forEach(day => {
+        var dayValue = day.value;
+            console.log(day);
+            console.log(dayValue);
+        var scheduleDayTarget = document.getElementById("buildingContainer");
+        var builderDayContainer = document.createElement("div");
+            builderDayContainer.id = dayValue;
+            builderDayContainer.className = "builderDayContainer";
+            builderDayContainer.innerHTML = `
+                <div id="builderDayTitle" class="builderDayTitle">`+dayValue+`</div>
+                <div id="`+dayValue+`Breakfast" id="builderMealContainer">Breakfast</div>
+                <div id="`+dayValue+`Lunch" id="builderMealContainer">Lunch</div>
+                <div id="`+dayValue+`Dinner" id="builderMealContainer">Dinner</div>
+            `;
+        scheduleDayTarget.appendChild(builderDayContainer);
+    })
 }
     
 
