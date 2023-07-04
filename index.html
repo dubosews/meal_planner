@@ -12,13 +12,16 @@
         <div id="daySelector" class="daySelector"></div>
     </div>
     <div id="mealSelectionContainer" class="mealSelectionContainer"></div>
-    <div id="buildingContainer" class="buildingContainer"></div>
+    <div id="buildingContainer" class="buildingContainer">
+        <div id="changeDaysBtn" class="changeDaysBtn" onclick="showDayChangeMenu()">Edit Days</div>
+        <div id="hideChangeDaysBtn" class="hideChangeDaysBtn" onclick="hideDayChangeMenu()">Hide Menu</div>
+    </div>
     <div id="savedMealsContainer" class="savedMealsContainer">
         <div id="showScheduleBtnContainer" class="showScheduleBtnContainer">
-            <div id="showScheduleBtn" class="showScheduleBtn" onclick="showSchedule()">Show Schedule</div>
-            <div id="showMealFinderBtn" class="showMealFinderBtn" onclick="showRandomMealBtn()">Find Meals</div>
+            <div id="scheduleBtn" class="showScheduleBtn" onclick="showSchedule()">Show Schedule</div>
+            <div id="mealFinderBtn" class="showMealFinderBtn" onclick="showMealFinder()">Find Meals</div>
         </div>
-        <div id="savedMealsDest" class="savedMealsDest"></div>
+        <div id="savedMealsDest" class="savedMealsDest" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
     <script src="./src/js/index.js"></script>
 </body>
