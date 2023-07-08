@@ -123,19 +123,6 @@
 }
 
 .mealSelectionContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    align-self: center;
-    align-items: center;
-    justify-self: center;
-    justify-items: center;
-}
-
-.mealSelectionContainer {
     display: none;
     flex-direction: row;
     align-self: center;
@@ -473,6 +460,10 @@
     height: auto;
 }
 
+.activeMealsBtnContainer {
+    display: none;
+}
+
 .showScheduleBtn {
     display: none;
     flex-direction: row;
@@ -543,6 +534,41 @@
     transition: 0.5s;
 }
 
+.showfinalizeBtn {
+    display: none;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    border: 1px solid rgb(0, 57, 5);
+    border-radius: 12pt;
+    background-color: rgb(125, 255, 173);
+    color: rgb(0, 83, 7);
+    font-size: 16pt;
+    font-family: Helvetica;
+}
+
+.showfinalizeBtn:hover {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    flex-direction: row;
+    border: 1px solid rgb(255, 69, 69);
+    border-radius: 12pt;
+    background-color: rgb(13, 235, 94);
+    color: rgb(199, 199, 199);
+    font-size: 18pt;
+    font-weight: bold;
+    font-family: Helvetica;
+    transition: 0.5s;
+}
+
 .buildingContainer {
     display: none;
     flex-direction: column;
@@ -574,6 +600,11 @@
 .builderMealContainer:hover {
     background-color: rgb(174, 235, 255);
     color: black;
+}
+
+.builderDayContainer {
+    display: flex;
+    flex-direction: row;
 }
 
 .changeDaysBtn {
@@ -644,4 +675,88 @@
     font-weight: bold;
     font-family: Helvetica;
     transition: 0.5s;
+}
+
+.overViewContainer {
+    display: none;
+    flex-direction: row;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom:20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: lightblue;
+    border-radius: 12px;
+    font-family: helvetica;
+    font-size: 18pt;
+    font-weight: 400;
+    color: white;
+}
+
+.ingredientsContainer {
+    flex-direction: column;
+}
+
+.ingredientCard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 150px;
+    height: 75px;
+    margin-top: 10px;
+    margin-bottom:10px;
+    margin-left: 15px;
+    margin-right:15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    justify-content: center;
+    background-color: white;
+    color:lightblue;
+    border-radius: 12px;
+    font-family: helvetica;
+    font-size: 16pt;
+    font-weight: 400;
+    text-align: center;
+}
+
+.ingredientCard:hover {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 200px;
+    margin-top: 10px;
+    margin-bottom:10px;
+    margin-left: 15px;
+    margin-right:15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    justify-content: center;
+    background-color: rgba(68, 208, 255, 0.872);
+    color: white;
+    border-radius: 12px;
+    font-family: helvetica;
+    font-size: 16pt;
+    font-weight: 400;
+    text-align: center;
 }
