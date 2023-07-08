@@ -17,11 +17,16 @@
         <div id="hideChangeDaysBtn" class="hideChangeDaysBtn" onclick="hideDayChangeMenu()">Hide Menu</div>
     </div>
     <div id="savedMealsContainer" class="savedMealsContainer">
-        <div id="showScheduleBtnContainer" class="showScheduleBtnContainer">
+        <div id="activeMealsBtnContainer" class="activeMealsBtnContainer">
             <div id="scheduleBtn" class="showScheduleBtn" onclick="showSchedule()">Show Schedule</div>
             <div id="mealFinderBtn" class="showMealFinderBtn" onclick="showMealFinder()">Find Meals</div>
+            <div id="finalizeBtn" class="showfinalizeBtn" onclick="finalizeBtn()">Finalize</div>
         </div>
-        <div id="savedMealsDest" class="savedMealsDest" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="savedMealsDest" class="savedMealsDest" ondrop="drop(event)" ondragover="allowDrop(event)" name="dropZone"></div>
+    </div>
+    <div id="overViewContainer" class="overViewContainer">
+        <div id="ingredientsContainer" class="ingredientsContainer"></div>
+        <div id="scheduleContainer" class="scheduleContainer"></div>
     </div>
     <script src="./src/js/index.js"></script>
 </body>
