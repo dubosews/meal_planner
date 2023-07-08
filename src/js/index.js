@@ -2,6 +2,8 @@ const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"
 const selectedDaysArray = [];
 const mealsArray=[];
 const savedMealsArray = [];
+const placedMealsArray = [];
+const ingredientsArray = [];
 
 // Stage I: Select the Days User Wants to Plan Meals For.
 function daySelect () {
@@ -151,6 +153,7 @@ function displayRandomMeal (meal) {
 function saveMeal (mealParam) {
     var savedMealsBg = document.getElementById("savedMealsContainer");
         savedMealsBg.style.backgroundColor = "lightblue";
+        showActiveMealsContainer();
     var hideSaveMealBtn = document.getElementById("saveMealBtn");
         hideSaveMealBtn.style.display = "none";
     var showSaveMealBtnActive = document.getElementById("saveMealBtnActive");
@@ -181,6 +184,7 @@ function duplicateObjCheck (duplicateParam) {
         var test = duplicateParam.position = savedMealsLength;
             console.log(test);
         test;
+        duplicateParam.timeSlot = "savedMealsDest";
         savedMealsArray.push(duplicateParam);
         addSavedMealtoDOM(duplicateTargetId);
             console.log("meal added");
@@ -225,28 +229,6 @@ function addSavedMealtoDOM (savedMealParam) {
         }
     })
 }
-
-function allowDrop(ev) {
-    ev.preventDefault();
-  }
-  
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-    console.log(ev);
-}
-  
-  function drop(ev) {
-    ev.preventDefault();
-    console.log(ev);
-    console.log(ev.target);
-    var dataTarget = ev.target;
-    var dataId = dataTarget.id;
-    console.log(dataTarget)
-    console.log(dataId);
-    var data = ev.dataTransfer.getData("text");
-    console.log(data);
-    ev.target.appendChild(document.getElementById(data));
-  }
 
 function unsaveMeal (unsaveMealParam) {
         console.log(unsaveMealParam);
@@ -300,6 +282,7 @@ function showSchedule () {
     var showChangeDaysBtn = document.getElementById("changeDaysBtn");
         showChangeDaysBtn.style.display = "flex";
     buildEmptySchedule();
+    showFinalizeBtn();
 }
 
 function buildEmptySchedule () {
@@ -324,6 +307,7 @@ function buildEmptySchedule () {
                             class="builderMealContainer" 
                             ondrop="drop(event)" 
                             ondragover="allowDrop(event)"
+                            name="dropZone"
                         >
                             Breakfast
                         </div>
@@ -332,6 +316,7 @@ function buildEmptySchedule () {
                             class="builderMealContainer" 
                             ondrop="drop(event)" 
                             ondragover="allowDrop(event)"
+                            name="dropZone"
                         >
                             Lunch
                         </div>
@@ -340,6 +325,7 @@ function buildEmptySchedule () {
                             class="builderMealContainer" 
                             ondrop="drop(event)" 
                             ondragover="allowDrop(event)"
+                            name="dropZone"
                         >
                             Dinner
                         </div>
@@ -354,6 +340,47 @@ function buildEmptySchedule () {
     })
 }
 
+function allowDrop(ev) {
+    var dropDest = ev.target;
+    var dropDestName = dropDest.getAttribute('name');
+        if(dropDestName === "dropZone") {
+            ev.preventDefault();
+        }
+  }
+  
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    console.log(ev);
+}
+  
+  function drop(ev) {
+    ev.preventDefault();
+    console.log(ev);
+    console.log(ev.target);
+    var dataTarget = ev.target;
+    var dataId = dataTarget.id;
+    var destChildren = dataTarget.children;
+        console.log(destChildren);
+    var data = ev.dataTransfer.getData("text");
+        console.log(dataTarget);
+        console.log(dataId);
+        console.log(data);
+    var placedMealId = document.getElementById(data);
+        console.log(placedMealId.id);
+    ev.target.appendChild(document.getElementById(data));
+        console.log(ev);
+    savedMealsArray.forEach(meal => {
+        var mealId = meal.idMeal;
+        console.log(mealId);
+        console.log(data);
+        if(mealId === data) {
+            console.log("match");
+            meal.timeSlot = dataId;
+            console.log(meal);
+        }
+    })
+  }
+
 function showDayChangeMenu () {
     var daySelectorMenu = document.getElementById("daySelectionContainer");
         daySelectorMenu.style.display = "flex";
@@ -361,6 +388,72 @@ function showDayChangeMenu () {
         showChangeDaysBtn.style.display = "flex";
     var showChangeDaysBtn = document.getElementById("changeDaysBtn");
         showChangeDaysBtn.style.display = "flex";
+}
+
+function showFinalizeBtn () {
+    var showFinalizeBtn = document.getElementById("finalizeBtn");
+        showFinalizeBtn.style.display = "flex";
+}
+
+function showActiveMealsContainer () {
+    var activeMealsContainer = document.getElementById("savedMealsContainer");
+        activeMealsContainer.style.display = "flex";
+    var activeMealsContainer = document.getElementById("activeMealsBtnContainer");
+        activeMealsContainer.style.display = "flex";
+};
+
+function finalizeBtn () {
+    var hideMealFinder = document.getElementById("mealSelectionContainer");
+        hideMealFinder.style.display = "none";
+    var hideBuilder = document.getElementById("buildingContainer");
+        hideBuilder.style.display = "none";
+    var hideActiveMeals = document.getElementById("savedMealsContainer");
+        hideActiveMeals.style.display = "none";
+    var showOverView = document.getElementById("overViewContainer");
+        showOverView.style.display = "flex";
+    showIngredients();
+}
+
+function showIngredients () {
+    var ingredientsContainer = document.getElementById("ingredientsContainer");
+        ingredientsContainer.style.display = "flex";
+    savedMealsArray.forEach(meal => {
+        var mealTimeSlot = meal.timeSlot;
+            console.log(mealTimeSlot);
+        if(mealTimeSlot === "savedMealsDest"){
+            console.log("unusedMeal");
+        } else {
+            for(i = 1; i <= 20; i++) {
+                console.log(i);
+                var ingredientId = "strIngredient"+i;
+                var measuermentId = "strMeasure"+i;
+                var ingredientValue = meal[ingredientId];
+                var measurementValue = meal[measuermentId];
+                    console.log(ingredientValue);
+                    console.log(measurementValue);
+                if(ingredientValue === '') {
+                    console.log("test");
+                } if(ingredientValue === "null") {
+                    console.log("test");
+                }  else {
+                    var ingredientObj = {ingredient: ingredientValue, measurement: measurementValue};
+                    ingredientsArray.push(ingredientObj);
+                        console.log(ingredientObj);
+                        console.log(ingredientsArray);
+                    var ingredientCard = document.createElement('div');
+                        ingredientCard.id = ingredientValue;
+                        ingredientCard.name = "ingredientCard";
+                        ingredientCard.className = "ingredientCard";
+                        ingredientCard.innerHTML = `
+                            <div id="ingredientName" class="ingredientName">`+ingredientValue+`</div>
+                            <div id="ingredientMeasurement" class="ingredientMeasurement">`+measurementValue+`</div>                 
+                        `;
+                        console.log(ingredientCard);
+                        ingredientsContainer.appendChild(ingredientCard);
+                }
+            }
+        }
+    })
 }
 
 daySelect();
