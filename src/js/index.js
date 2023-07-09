@@ -432,28 +432,62 @@ function showIngredients () {
                     console.log(ingredientValue);
                     console.log(measurementValue);
                 if(ingredientValue === '') {
-                    console.log("test");
-                } if(ingredientValue === "null") {
-                    console.log("test");
-                }  else {
-                    var ingredientObj = {ingredient: ingredientValue, measurement: measurementValue};
-                    ingredientsArray.push(ingredientObj);
-                        console.log(ingredientObj);
-                        console.log(ingredientsArray);
-                    var ingredientCard = document.createElement('div');
-                        ingredientCard.id = ingredientValue;
-                        ingredientCard.name = "ingredientCard";
-                        ingredientCard.className = "ingredientCard";
-                        ingredientCard.innerHTML = `
-                            <div id="ingredientName" class="ingredientName">`+ingredientValue+`</div>
-                            <div id="ingredientMeasurement" class="ingredientMeasurement">`+measurementValue+`</div>                 
-                        `;
-                        console.log(ingredientCard);
-                        ingredientsContainer.appendChild(ingredientCard);
-                }
+                    console.log("space");
+                } else{
+                    if(ingredientValue === "null") {
+                        console.log("Null");
+                    } else {
+                        if(ingredientValue === " ") {
+                            console.log("string");
+                        } else{
+                            var ingredientObj = {ingredient: ingredientValue, measurement: measurementValue};
+                            generateIngredientList(ingredientObj);
+                        }
+                    }
+                } 
             }
         }
     })
 }
+
+function generateIngredientList (params) {
+    var ingredientParams = params;
+    var paramIngredient = params.ingredient;
+    var paramMeasurement = params.measurement;
+        console.log(ingredientsArray);
+        ingredientsArray.forEach(ingredient => {
+            var ingredientName = ingredient.ingredient;
+            console.log(ingredient);
+            console.log(ingredientName);
+            console.log(paramIngredient);
+            if(ingredientName === "Eggs") {
+                console.log("Eggs Plural")
+                ingredientName.value = "Egg";
+            }if(ingredientName === "eggs") {
+                console.log("Eggs Plural")
+                ingredientName.value = "Egg";
+            }
+            if(ingredientName === paramIngredient){
+                console.log("duplicate detected");
+            }
+        })
+        ingredientsArray.push(ingredientParams);
+            console.log(ingredientParams);
+            console.log(ingredientsArray);
+        
+    var ingredientCard = document.createElement('div');
+        ingredientCard.id = paramIngredient;
+        ingredientCard.name = "ingredientCard";
+        ingredientCard.className = "ingredientCard";
+        ingredientCard.innerHTML = `
+            <div id="ingredientName" class="ingredientName">`+paramIngredient+`</div>
+            <div id="ingredientMeasurement" class="ingredientMeasurement">`+paramMeasurement+`</div>                 
+        `;
+        console.log(ingredientCard);
+        ingredientsContainer.appendChild(ingredientCard);
+}
+
+
+
 
 daySelect();
